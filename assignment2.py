@@ -16,7 +16,7 @@ def processData(csvContents):
       A dictionary of people with id's as the keys and a tuple
       with the person info as its value. 
     """
-    print(type(csvContents), 'CSVCONTENTS')
+
     csvPayLoad = csv.reader(csvContents.decode('utf-8').splitlines())
     csvResults = [row for idx, row in enumerate(csvPayLoad) if idx > 0]
     personDict = {
@@ -37,6 +37,7 @@ def downloadData(url):
     Returns | Prints:
         the .csv data or prints an error if an Exception occurs.
     """
+
     try:
         csvData = urllib.urlopen(url)
         personData = processData(csvData.read())
@@ -60,6 +61,7 @@ def displayPerson(id, personData):
         A formatted string via the displayStrFmtr call or the fallback string.
 
     """
+
     person = personData.get(id, 'No user found with that id')
 
     return displayStrFmtr(id, person) if isinstance(person, tuple) else person
@@ -77,6 +79,7 @@ def displayStrFmtr(id, person):
     Returns:
         A formatted string that includes the id and person info.
     """
+
     (name, bday) = person
     result = f"Person #<{id}> is <{name}> with a birthday of <{dateStrFmtr(bday)}>"
 
@@ -93,6 +96,7 @@ def dateStrFmtr(dateObj):
     Returns:
         A formatted string.
     """
+
     return dateObj.strftime('%Y-%m-%d')
 
 def parseDate(dateStr):
@@ -106,6 +110,7 @@ def parseDate(dateStr):
     Returns:
         A date object.
     """
+
     return datetime.strptime(dateStr, '%d/%m/%Y')
 
 def strDateParseChecker(dateStr, personId, line):
@@ -125,6 +130,7 @@ def strDateParseChecker(dateStr, personId, line):
         it isnt. If it fails to parse correctly an error is
         appended to the errors.log      
     """
+
     try:
         return parseDate(dateStr)
     except ValueError:
@@ -144,6 +150,7 @@ def safeIntChecker(intStr):
         None if it isnt.
 
     """
+    
     try: 
         num = int(intStr)
         return (True, num)
