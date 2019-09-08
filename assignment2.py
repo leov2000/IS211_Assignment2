@@ -65,18 +65,66 @@ def displayPerson(id, personData):
     return displayStrFmtr(id, person) if isinstance(person, tuple) else person
 
 def displayStrFmtr(id, person):
+    """
+    A utilty function that's used to display the 
+    name and bday of a user given an id via the
+    CLI. 
+
+    Parameters:
+        id(int):                        int representing the person id.
+        person(tuple[str, <date-obj>]): tuple that contains person info.
+
+    Returns:
+        A formatted string that includes the id and person info.
+    """
     (name, bday) = person
     result = f"Person #<{id}> is <{name}> with a birthday of <{dateStrFmtr(bday)}>"
 
     return result 
 
 def dateStrFmtr(dateObj):
+    """
+    A utility function that takes the #dateObj param
+    and returns a formatted string of 'YYYY-MM-DD'
+
+    Parameters:
+        dateObj(<date-obj>): A date object.
+    
+    Returns:
+        A formatted string.
+    """
     return dateObj.strftime('%Y-%m-%d')
 
 def parseDate(dateStr):
+    """
+    A utility function that parses the #dateStr param according to 
+    format
+
+    Parameters:
+        dateStr(str): A string in a date format.
+    
+    Returns:
+        A date object.
+    """
     return datetime.strptime(dateStr, '%d/%m/%Y')
 
 def strDateParseChecker(dateStr, personId, line):
+    """
+    An intermediary function that checks the #dateStr 
+    param can be parsed, if parsed it returns a dateobj
+    if it fails, log the #id and #line where the error
+    occurred
+
+    Parameters:
+        dateStr(str) : A string in a date format. 
+        personId(int): The person id int.
+        line(int)    : int line where the person can be found.
+
+    Returns | Logs:
+        A date object only if its parsed correctly and None if 
+        it isnt. If it fails to parse correctly an error is
+        appended to the errors.log      
+    """
     try:
         return parseDate(dateStr)
     except ValueError:
@@ -84,6 +132,18 @@ def strDateParseChecker(dateStr, personId, line):
         return None
 
 def safeIntChecker(intStr):
+    """
+    A utility function that checks if the string representation of an int inputted
+    when the CLI starts can be successfuly cast as an int.
+    
+    Parameters:
+        intStr(str): A string representing an Int.
+
+    Returns:
+        A tuple with a boolean as the first item and a value if its successfuly cast or
+        None if it isnt.
+
+    """
     try: 
         num = int(intStr)
         return (True, num)
