@@ -5,6 +5,18 @@ from datetime import datetime
 import csv
 
 def processData(csvContents):
+    """
+    A primary function that received the fetched csv data
+    parses, formats and sanitizes according to spec.
+
+    Parameters:
+        csvContents(bytes): csv data fetched
+
+    Returns:
+      A dictionary of people with id's as the keys and a tuple
+      with the person info as its value. 
+    """
+    print(type(csvContents), 'CSVCONTENTS')
     csvPayLoad = csv.reader(csvContents.decode('utf-8').splitlines())
     csvResults = [row for idx, row in enumerate(csvPayLoad) if idx > 0]
     personDict = {
