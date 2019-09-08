@@ -46,6 +46,20 @@ def downloadData(url):
         print('Something went wrong')
         
 def displayPerson(id, personData):
+    """
+    A primary function used to get values from the #personData
+    dict given an id. A fallback value is provided if the id
+    isn't present in the dictionary.
+
+    Parameters:
+        id(int): int representing the person id.
+        personData(dict[int, tuple[str, <date-obj>]]): the dictionary which
+            houses the state of all people.
+
+    Returns:
+        A formatted string via the displayStrFmtr call or the fallback string.
+
+    """
     person = personData.get(id, 'No user found with that id')
 
     return displayStrFmtr(id, person) if isinstance(person, tuple) else person
