@@ -27,6 +27,16 @@ def processData(csvContents):
     return personDict
 
 def downloadData(url):
+    """
+    A primary function that fetches given the #url param
+    or prints an error. 
+
+    Parameters:
+        url(string): uri string
+
+    Returns | Prints:
+        the .csv data or prints an error if an Exception occurs.
+    """
     try:
         csvData = urllib.urlopen(url)
         personData = processData(csvData.read())
