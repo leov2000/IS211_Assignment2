@@ -182,7 +182,7 @@ def main():
             print(f'Something went wrong, you entered in <{args.url}>, please check your url param for errors')
             return SystemExit
 
-        CLI = True and personData != None 
+        CLI = personData != None
 
         while CLI:
             keyed = input('Please Enter an ID For Lookup\n')
