@@ -161,7 +161,7 @@ def main():
     Parameters:
         url(str): A string representing a url
     
-    SideEffects:
+    Returns:
         No values are returned as a sideffect the CLI is bootstrapped using the url
         parameter. You're prompted to search for a user given number. if the string
         is > 0 and not one of the users assocaited with a date error you'll receive
