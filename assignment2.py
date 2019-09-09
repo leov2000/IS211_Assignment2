@@ -10,18 +10,15 @@ def processData(csvContents):
     personDict = {
         pid: (name, parseDate(bday)) for idx, (pid,name,bday) in enumerate(csvResults) 
         if strDateParseChecker(bday, pid, idx + 2)
-        }
+    }
 
     return personDict
 
 def downloadData(url):
-    try:
-        csvData = urllib.urlopen(url)
-        personData = processData(csvData.read())
+    csvData = urllib.urlopen(url)
+    personData = processData(csvData.read())
 
-        return personData
-    except (ValueError):
-        print('Something went wrong')
+    return personData
         
 def displayPerson(id, personData):
     person = personData.get(id, 'No user found with that id')
@@ -47,7 +44,7 @@ def strDateParseChecker(dateStr, personId, line):
         logging.error(f'Error processing line #<{line}>, for ID #<{personId}>')
         return None
 
-def safeIntChecker(intStr):
+def safeIntChecker(intStr): 
     try: 
         num = int(intStr)
         return (True, num)
@@ -63,11 +60,16 @@ def main():
     logging.getLogger('assignment2')
 
     if(args.url):
-        personData = downloadData(args.url)
-        CLI = True
+        try:
+            personData = downloadData(args.url)
+        except (ValueError, urllib.HTTPError):
+            print(f'Something went wrong, you entered in <{args.url}>, please check your url param for errors')
+            return SystemExit
+
+        CLI = personData != None
 
         while CLI:
-            keyed = input('Please Enter a Integer UserId\n')
+            keyed = input('Please Enter an ID For Lookup\n')
             (isInt, castNum) = safeIntChecker(keyed)
 
             if isInt and castNum > 0:
