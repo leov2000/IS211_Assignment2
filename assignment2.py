@@ -180,7 +180,7 @@ def main():
             personData = downloadData(args.url)
         except (ValueError, urllib.HTTPError):
             print(f'Something went wrong, you entered in <{args.url}>, please check your url param for errors')
-            return None
+            return SystemExit
 
         CLI = True and personData != None 
 
