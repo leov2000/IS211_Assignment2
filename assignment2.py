@@ -22,7 +22,7 @@ def processData(csvContents):
     personDict = {
         pid: (name, parseDate(bday)) for idx, (pid,name,bday) in enumerate(csvResults) 
         if strDateParseChecker(bday, pid, idx + 2)
-        }
+    }
 
     return personDict
 
@@ -34,17 +34,14 @@ def downloadData(url):
     Parameters:
         url(string): uri string
 
-    Returns | Prints:
-        the .csv data or prints an error if an Exception occurs.
+    Returns:
+        the .csv data.
     """
 
-    try:
-        csvData = urllib.urlopen(url)
-        personData = processData(csvData.read())
+    csvData = urllib.urlopen(url)
+    personData = processData(csvData.read())
 
-        return personData
-    except (ValueError):
-        print('Something went wrong')
+    return personData
         
 def displayPerson(id, personData):
     """
@@ -158,6 +155,19 @@ def safeIntChecker(intStr):
         return (False, None)
 
 def main():
+    """
+    The main function of this application.
+
+    Parameters:
+        url(str): A string representing a url
+    
+    SideEffects:
+        No values are returned as a sideffect the CLI is bootstrapped using the url
+        parameter. You're prompted to search for a user given number. if the string
+        is > 0 and not one of the users assocaited with a date error you'll receive
+        the users info if its <= 0 the app will exit.
+    """
+
     parser = argparse.ArgumentParser()
     parser.add_argument('url')
     args = parser.parse_args()
@@ -166,11 +176,16 @@ def main():
     logging.getLogger('assignment2')
 
     if(args.url):
-        personData = downloadData(args.url)
-        CLI = True
+        try:
+            personData = downloadData(args.url)
+        except (ValueError, urllib.HTTPError):
+            print(f'Something went wrong, you entered in <{args.url}>, please check your url param for errors')
+            return None
+
+        CLI = True and personData != None 
 
         while CLI:
-            keyed = input('Please Enter a Integer UserId\n')
+            keyed = input('Please Enter an ID For Lookup\n')
             (isInt, castNum) = safeIntChecker(keyed)
 
             if isInt and castNum > 0:
